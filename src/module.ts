@@ -38,7 +38,7 @@ const DEFAULTS: ModuleOptions = {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'nuxt-oidc-auth',
+    name: 'adfs-auth',
     configKey: 'oidc',
     compatibility: {
       nuxt: '>=3.9.0',
@@ -47,7 +47,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: DEFAULTS,
   setup(options, nuxt) {
-    const logger = useLogger('nuxt-oidc-auth')
+    const logger = useLogger('adfs-auth')
     if (!options.enabled)
       return
 
