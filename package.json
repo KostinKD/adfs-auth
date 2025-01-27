@@ -1,5 +1,5 @@
 {
-  "name": "my-module",
+  "name": "adfs-auth",
   "version": "1.0.1",
   "description": "My new Nuxt module",
   "repository": "KostinKD/adfs-auth",
