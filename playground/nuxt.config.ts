@@ -1,5 +1,175 @@
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
-  modules: ['../src/module'],
-  myModule: {},
-  devtools: { enabled: true },
+  modules: [
+    '../src/module',
+    '@unocss/nuxt',
+    '@nuxtjs/color-mode',
+  ],
+
+  telemetry: false,
+  devServer: {
+    port: 5173,
+  },
+
+  oidc: {
+    defaultProvider: 'github',
+    providers: {
+      entra: {
+        redirectUri: 'http://localhost:3000/auth/entra/callback',
+        clientId: '',
+        clientSecret: '',
+        authorizationUrl: 'https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/authorize',
+        tokenUrl: 'https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/token',
+        userNameClaim: 'unique_name',
+        nonce: true,
+        responseType: 'code id_token',
+        scope: ['profile', 'openid', 'offline_access', 'email'],
+        logoutUrl: '',
+        optionalClaims: ['unique_name', 'family_name', 'given_name', 'login_hint'],
+        audience: '',
+        additionalAuthParameters: {
+          resource: '',
+          prompt: 'select_account',
+        },
+        additionalLogoutParameters: {
+          logoutHint: '',
+        },
+        allowedCallbackRedirectUrls: [
+          'http://localhost:4000/auth/entra/callback',
+        ],
+        allowedClientAuthParameters: [
+          'test',
+        ],
+        validateAccessToken: true,
+      },
+      auth0: {
+        audience: 'scheduler_app',
+        responseType: 'code',
+        authenticationScheme: 'header',
+        tokenRequestType: 'form-urlencoded',
+        grantType: 'authorization_code',
+        scope: ['allatclaims'],
+        validateAccessToken: false,
+        validateIdToken: false,
+        skipAccessTokenParsing: true,
+        userNameClaim: 'yadroProfile',
+        optionalClaims: ['upn'],
+        redirectUri: 'http://localhost:5173/auth/auth0/callback',
+        callbackRedirectUrl: '/',
+        baseUrl: 'https://adf.yadro.com/adfs/oauth2',
+        tokenUrl: 'https://adf.yadro.com/adfs/oauth2/token',
+        authorizationUrl: 'https://adf.yadro.com/adfs/oauth2/authorize',
+        clientId: '78dcbc70-e9b2-44c4-b0bc-f26e43f8f18d',
+        clientSecret: 'cHA0lgez7v0TeCIWui7EI324zQCmvFiEe30hFGHy',
+      },
+      github: {
+        redirectUri: 'http://localhost:3000/auth/github/callback',
+        clientId: '',
+        clientSecret: '',
+        filterUserInfo: ['login', 'id', 'avatar_url', 'name', 'email'],
+      },
+      keycloak: {
+        audience: 'account',
+        baseUrl: '',
+        clientId: '',
+        clientSecret: '',
+        redirectUri: 'http://localhost:3000/auth/keycloak/callback',
+        userNameClaim: 'preferred_username',
+        logoutRedirectUri: 'http://localhost:3000',
+        // For testing Single sign-out
+        sessionConfiguration: {
+          singleSignOut: true,
+        },
+      },
+      cognito: {
+        clientId: '',
+        redirectUri: 'http://localhost:3000/auth/cognito/callback',
+        clientSecret: '',
+        scope: ['openid', 'email', 'profile'],
+        logoutRedirectUri: 'https://google.com',
+        baseUrl: '',
+        exposeIdToken: true,
+      },
+      zitadel: {
+        clientId: '',
+        clientSecret: '', // Works with PKCE and Code flow, just leave empty for PKCE
+        redirectUri: 'http://localhost:3000/auth/zitadel/callback',
+        baseUrl: '',
+        audience: '', // Specify for id token validation, normally same as clientId
+        logoutRedirectUri: 'https://google.com', // Needs to be registered in Zitadel portal
+        authenticationScheme: 'none', // Set this to 'header' if Code is used instead of PKCE
+      },
+      paypal: {
+        clientId: '',
+        clientSecret: '',
+        scope: ['openid', 'profile'],
+        authorizationUrl: 'https://www.sandbox.paypal.com/signin/authorize?flowEntry=static',
+        tokenUrl: 'https://api-m.sandbox.paypal.com/v1/oauth2/token',
+        userInfoUrl: 'https://api-m.sandbox.paypal.com/v1/identity/openidconnect/userinfo?schema=openid',
+        redirectUri: 'http://127.0.0.1:3000/auth/paypal/callback',
+      },
+      microsoft: {
+        clientId: '',
+        clientSecret: '',
+        redirectUri: 'http://localhost:3000/auth/microsoft/callback',
+      },
+      logto: {
+        baseUrl: '',
+        clientId: '',
+        clientSecret: '',
+        redirectUri: 'http://localhost:3000/auth/logto/callback',
+        logoutRedirectUri: 'http://localhost:3000',
+      },
+    },
+    session: {
+      expirationCheck: true,
+      automaticRefresh: true,
+      expirationThreshold: 3600,
+    },
+    middleware: {
+      globalMiddlewareEnabled: true,
+      customLoginPage: true,
+    },
+    devMode: {
+      enabled: false,
+      generateAccessToken: true,
+      userName: 'Test User',
+      userInfo: { providerName: 'test' },
+      claims: { customclaim01: 'foo', customclaim02: 'bar' },
+      issuer: 'dev-issuer',
+      audience: 'dev-app',
+      subject: 'dev-user',
+    },
+  },
+
+  colorMode: {
+    classSuffix: '',
+    preference: 'dark',
+  },
+
+  unocss: {
+    preflight: true,
+    configFile: 'uno.config.ts',
+  },
+
+  devtools: {
+    enabled: true,
+  },
+
+  imports: {
+    autoImport: true,
+  },
+
+  nitro: {
+    preset: 'node-server',
+    storage: { // Local file system storage for demo purposes
+      oidc: {
+        driver: 'fs',
+        base: 'playground/oidcstorage',
+      },
+    },
+  },
+
+  compatibilityDate: '2024-08-28',
 })

@@ -32,9 +32,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return
   }
   const { loggedIn, login } = useOidcAuth()
-
+  console.log('LOGIN', loggedIn.value)
   if (loggedIn.value === true || to.path.startsWith('/auth/')) {
+    console.log('A')
     return
   }
+  console.log('B')
   await login()
 })
