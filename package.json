@@ -1,6 +1,6 @@
 {
   "name": "adfs-auth",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "My new Nuxt module",
   "repository": "KostinKD/adfs-auth",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt prepare && nuxt-module-build build && pnpm client:build",
+    "prepack": "nuxt-module-build build && pnpm client:build",
     "client:build": "nuxi generate client",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
