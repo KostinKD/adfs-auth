@@ -4,7 +4,7 @@ import { computed, navigateTo, useRequestEvent, useRequestFetch, useState } from
 import { appendResponseHeader } from 'h3'
 
 export function useOidcAuth() {
-  const sessionState = useState<UserSession>('nuxt-oidc-auth-session', undefined)
+  const sessionState = useState<UserSession>('adfs-auth-session', undefined)
   const user: ComputedRef<UserSession | undefined> = computed(() => sessionState.value ?? undefined)
   const loggedIn: ComputedRef<boolean> = computed<boolean>(() => {
     return Boolean(sessionState.value?.expireAt)

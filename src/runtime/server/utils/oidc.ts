@@ -11,7 +11,7 @@ import { parseJwtToken } from './security'
 import { clearUserSession } from './session'
 
 export function useOidcLogger() {
-  return createConsola().withDefaults({ tag: 'nuxt-oidc-auth', message: '[nuxt-oidc-auth]:' })
+  return createConsola().withDefaults({ tag: 'adfs-auth', message: '[adfs-auth]:' })
 }
 
 // Custom defu config merger to replace default values instead of merging them, except for requiredProperties

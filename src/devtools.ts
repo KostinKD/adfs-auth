@@ -3,9 +3,9 @@ import type { Nuxt } from 'nuxt/schema'
 import { existsSync } from 'node:fs'
 import { extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
 
-const DEVTOOLS_UI_ROUTE = '/__nuxt-oidc-auth'
+const DEVTOOLS_UI_ROUTE = '/__adfs-auth'
 const DEVTOOLS_UI_LOCAL_PORT = 3300
-const RPC_NAMESPACE = 'nuxt-oidc-auth-rpc'
+const RPC_NAMESPACE = 'adfs-auth-rpc'
 
 interface ServerFunctions {
   getNuxtOidcAuthSecrets: () => Record<'tokenKey' | 'sessionSecret' | 'authSessionSecret', string>
@@ -59,8 +59,8 @@ export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
 
   nuxt.hook('devtools:customTabs', (tabs) => {
     tabs.push({
-      name: 'nuxt-oidc-auth',
-      title: 'Nuxt OIDC Auth',
+      name: 'adfs-auth',
+      title: 'Adfs Auth',
       icon: 'carbon:rule-locked',
       view: {
         type: 'iframe',
